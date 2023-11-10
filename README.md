@@ -1,3 +1,9 @@
+### Fluxergy Fork
+
+This fork changes the values in `mbedtls_config.h` such that `#define MBEDTLS_SSL_TLS1_3_COMPATIBILITY_MODE` and 
+`#define MBEDTLS_SSL_PROTO_TLS1_3` are set to enable TLS 1.3.
+
+
 README for Mbed TLS
 ===================
 
