@@ -96,30 +96,6 @@ set(CTR_DRBG_128_BIT_KEY_WARNING "${WARNING_BORDER}"
                          "${CTR_DRBG_128_BIT_KEY_WARN_L3}"
                          "${WARNING_BORDER}")
 
-# Python 3 is only needed here to check for configuration warnings.
-if(NOT CMAKE_VERSION VERSION_LESS 3.15.0)
-    set(Python3_FIND_STRATEGY LOCATION)
-    find_package(Python3 COMPONENTS Interpreter)
-    if(Python3_Interpreter_FOUND)
-        set(MBEDTLS_PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
-    endif()
-else()
-    find_package(PythonInterp 3)
-    if(PYTHONINTERP_FOUND)
-        set(MBEDTLS_PYTHON_EXECUTABLE ${PYTHON_EXECUTABLE})
-    endif()
-endif()
-if(MBEDTLS_PYTHON_EXECUTABLE)
-
-    # If 128-bit keys are configured for CTR_DRBG, display an appropriate warning
-    execute_process(COMMAND ${MBEDTLS_PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/config.py -f ${CMAKE_CURRENT_SOURCE_DIR}/include/mbedtls/mbedtls_config.h get MBEDTLS_CTR_DRBG_USE_128_BIT_KEY
-                        RESULT_VARIABLE result)
-    if(${result} EQUAL 0)
-        message(WARNING ${CTR_DRBG_128_BIT_KEY_WARNING})
-    endif()
-
-endif()
-
 # We now potentially need to link all executables against PThreads, if available
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
